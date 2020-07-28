@@ -33,3 +33,48 @@ module.exports.registerUser = async (req, res) => {
     }
   }
 };
+
+//POST - Login user
+module.exports.loginUser = async (req, res) => {
+  const { username, password } = req.body;
+  if (!isValid.stringValidation(req.body)) {
+    res.status(400).json({
+      message: "Please provide username, password",
+    });
+  } else {
+    //find user by username
+    const [user] = await Users.findBy({ username });
+    try {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        //create jwt payload
+        const payload = {
+          sub: user.id,
+          username: user.username,
+          id: user.id,
+        };
+        //jwt options
+        const options = {
+          expiresIn: "7d",
+        };
+        //get the jwt secret from env
+        const jwtSecret = process.env.JWT_SECRET;
+        //jwt sign token
+        jwt.sign(payload, jwtSecret, options, (err, token) => {
+          if (err) {
+            return res.status(400).json({ msg: err });
+          }
+          res.status(200).json({
+            success: true,
+            token,
+            id: user.id,
+            username: user.username,
+          });
+        });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+};
