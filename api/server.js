@@ -6,6 +6,7 @@ const helmet = require("helmet");
 
 //auth middlelware
 //import routes
+const authRoutes = require("./routes/authRoutes");
 
 const server = express();
 
@@ -15,14 +16,18 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cors());
 // passport middleware
-// server.use(passport.initialize());
+server.use(passport.initialize());
 
 //passport config
-// require("../config/passport.js")(passport);
+require("../config/passport.js")(passport);
 
 //config routes
 server.get("/", (req, res) => {
   res.status(200).json({ api: "its alive!" });
 });
+
+server.use("/api/auth", authRoutes);
+//use passport to protect endpoints
+const requireLogin = passport.authenticate("jwt", { session: false });
 
 module.exports = server;
