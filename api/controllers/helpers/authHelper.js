@@ -2,11 +2,9 @@ const db = require("../../../data/dbConfig");
 
 //Register new user
 const registerUser = async (userInfo) => {
-  const username = {
-    username: userInfo.username,
-  };
+  const { username } = userInfo;
   //check to see if username already exists
-  const [existingUser] = await findBy(username);
+  const [existingUser] = await findBy({ username });
   if (existingUser) {
     //if username exists, compare the id
     const compareId = await findById(Number(existingUser.id));
