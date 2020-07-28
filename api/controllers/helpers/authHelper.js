@@ -24,3 +24,17 @@ const registerUser = async (userInfo) => {
     }
   }
 };
+
+const findById = (userID) => {
+  return db("users").where({ id: userID }).first();
+};
+
+const findBy = (obj) => {
+  return db("users").where(obj);
+};
+
+module.exports = {
+  registerUser,
+  findBy,
+  findById,
+};
