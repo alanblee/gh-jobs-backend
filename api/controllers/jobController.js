@@ -40,3 +40,34 @@ module.exports.deleteJob = async (req, res) => {
     res.status(500).json({ message: "An error has occured", err: err.message });
   }
 };
+
+// POST
+module.exports.saveJob = async (req, res) => {
+  let job = req.body;
+  const jobObj = {
+    ...job,
+    user_id: req.user.id,
+  };
+  if (isValid(job)) {
+    try {
+      const newJob = await Jobs.saveJobPost(jobObj);
+      if (newJob.id) {
+        res.status(201).json(newJob);
+      } else {
+        res.status(400).json({ message: newJob.message });
+      }
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+};
+
+function isValid(job) {
+  return Boolean(
+    job.title &&
+      job.company &&
+      job.posted_date &&
+      job.job_post_id &&
+      job.description
+  );
+}
