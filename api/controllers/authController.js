@@ -5,7 +5,7 @@ const Users = require("./helpers/authHelper");
 
 // POST - Register new user
 module.exports.registerUser = async (req, res) => {
-  let { username, pasword } = req.body;
+  let { username, password } = req.body;
 
   // validate the inputs
   if (!isValid.stringValidation(req.body)) {
