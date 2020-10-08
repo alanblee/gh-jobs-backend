@@ -69,6 +69,6 @@ function isValid(job) {
       job.company &&
       job.posted_date &&
       job.job_post_id &&
-      job.description
+      // job.description
   );
 }
