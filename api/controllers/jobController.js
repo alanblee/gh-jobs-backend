@@ -65,10 +65,7 @@ module.exports.saveJob = async (req, res) => {
 
 function isValid(job) {
   return Boolean(
-    job.title &&
-      job.company &&
-      job.posted_date &&
-      job.job_post_id &&
-      // job.description
+    job.title && job.company && job.posted_date && job.job_post_id
+    // job.description
   );
 }
