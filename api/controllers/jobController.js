@@ -48,6 +48,7 @@ module.exports.saveJob = async (req, res) => {
     ...job,
     user_id: req.user.id,
   };
+  console.log(job);
   if (isValid(job)) {
     try {
       const newJob = await Jobs.saveJobPost(jobObj);
