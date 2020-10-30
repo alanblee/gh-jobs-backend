@@ -9,7 +9,7 @@ exports.up = function (knex) {
     tbl.string("how_to_apply", 255);
     tbl.string("company_logo", 255);
     tbl.string("job_post_id", 255).notNullable();
-    tbl.varchar("description", 1000);
+    tbl.string("description");
 
     tbl.timestamps(true, true); //created at, updated at
     tbl
